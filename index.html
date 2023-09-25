@@ -9,9 +9,10 @@
   </head>
   <body>
     <div class="game-container">
+      <img class="bg-img" src="pics/mushroom-bg.png" alt="" />
       <div class="title-container">
-        <h1>Speed Game</h1>
-        <p id="score">Score: 0</p>
+        <h1>Pick the Mushrooms</h1>
+        <p id="score">Mushrooms picked: 0</p>
       </div>
 
       <div class="circle-container">
@@ -24,15 +25,15 @@
       <div class="button-container">
         <button id="start-button">Start game</button>
       </div>
+
+      <div id="overlay" class="hide">
+        <div class="game-results-screen">
+          <div id="close-overlay">X</div>
+          <h2>You're slower than the neighbor's granny!</h2>
+          <p id="game-result"></p>
+          <p></p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
-
-<!--
-  - score
-  - save best recore
-  - lives
-  - sounds / music
-  - info (overlay)
-  - 
--->

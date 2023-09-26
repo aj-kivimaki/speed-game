@@ -6,6 +6,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-text-select: none;
+  -webkit-user-select: none;
 }
 
 body {
@@ -24,6 +28,8 @@ img {
   height: 110px;
 }
 
+
+
 /* - - - game area - - - */
 
 .game-container {
@@ -36,13 +42,13 @@ img {
   padding: 40px;
   padding-top: 70px;
   cursor: url('./pics/knife.png'), auto;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .game-container .bg-img {
   position: absolute;
   right: 30px;
-  top: 30px;
+  top: 80px;
   width: 260px;
   height: 260px;
   object-fit: contain;
@@ -50,7 +56,7 @@ img {
 }
 
 .title-scores-container h1 {
-  font-size: 50px;
+  font-size: 60px;
   text-align: center;
 }
 
@@ -65,15 +71,12 @@ img {
 }
 
 .title-scores-container .game-score {
-  font-size: 30px;
+  font-size: 34px;
 }
 
 .title-scores-container .high-score {
   font-size: 16px;
-}
-
-#high-score {
-  font-size: 20px;
+  padding-left: 10px;
 }
 
 /* - - - circles - - - */
@@ -161,7 +164,9 @@ small {
   top: 150px;
   left: 200px;
   right: 200px;
-  padding: 30px;
+  padding: 100px;
+  border-radius: 8px;
+  line-height: 1.7;
 }
 
 #close-overlay {

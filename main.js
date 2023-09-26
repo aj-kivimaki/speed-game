@@ -34,26 +34,23 @@ const playGame = () => {
 
   mushroomId = displayRandomMushroom(newNumber, currentNumber);
 
-  // if poisonous mushroom
-  if (mushroomId === 3) {
-    rounds--; // balances the unclicked poisonous mushroom
-  }
+  // in case of poisonous mushroom
+  // balances the unclicked poisonous mushroom
+  if (mushroomId === 3) rounds--;
 
   // resets the current number
   currentNumber = newNumber;
 
   // sets the game loop on and the speed of the game
   timer = setTimeout(playGame, pace);
-  pace -= 10;
+  pace -= 8;
 };
 
 // stops the game loop, displays the result and sets the high score
 const endGame = () => {
   clearTimeout(timer);
-
   gameResultElem.textContent = getResultText(score);
   modalDisplay.classList.remove("hide");
-
   setHighScore(score);
 };
 
@@ -79,25 +76,24 @@ const clickCircle = (index) => {
   if (mushroomId === 3) {
     score -= 5;
     displayScore();
-    rounds--; // balances the count of missed clicks
+    badFx.play();
     displayAlertMessage();
-    setTimeout(removerAlertMessage, 1500);
+    setTimeout(removeAlertMessage, 1500);
+    rounds--; // balances the count of missed clicks
     return;
   }
   score += 2;
+  getRandomSound();
   displayScore();
   rounds--; // balances the count of missed clicks
 };
 
-const removerAlertMessage = () => (alertMessageElem.textContent = "");
+const displayAlertMessage = () =>
+  (alertMessageElem.textContent = "Don't pick poisonous mushrooms! -5p");
 
-const displayAlertMessage = () => {
-  alertMessageElem.textContent = "Don't pick poisonous mushrooms! -5p";
-};
+const removeAlertMessage = () => (alertMessageElem.textContent = "");
 
-const displayScore = () => {
-  scoreDisplay.textContent = score;
-};
+const displayScore = () => (scoreDisplay.textContent = score);
 
 // generates new random number, which is different from the one before
 const getNewNumber = (currentNumber) => {
@@ -115,7 +111,7 @@ const getRandomNumber = (min, max) =>
 const displayRandomMushroom = (newNumber, currentNumber) => {
   mushroomId = getRandomNumber(0, 3);
   circleElems[newNumber].innerHTML = `
-  <img class="mushroom-img" src="pics/mushroom-${mushroomId}.png" alt="mushroom" />`;
+  <img class="mushroom-img" src="pics/mushroom-${mushroomId}.png" alt="mushroom" draggable="false" />`;
   circleElems[currentNumber].innerHTML = "";
   return mushroomId;
 };
@@ -134,6 +130,12 @@ const setHighScore = (score) => {
   if (score > highScore) localStorage.setItem("highScore", score);
 };
 
+// generate random sound between 3 sounds
+const getRandomSound = () => {
+  const arrIndex = getRandomNumber(0, 2);
+  goodFxArr[arrIndex].play();
+};
+
 /* - - - EVENT LISTENERS - - - */
 startButtonElem.addEventListener("click", playGame);
 endButtonElem.addEventListener("click", endGame);
@@ -141,3 +143,12 @@ closeModalElem.addEventListener("click", resetGame);
 circleElems.forEach((circle, index) => {
   circle.addEventListener("click", () => clickCircle(index));
 });
+
+/* - - - SOUNDS - - - */
+const goodFx1 = new Audio("./sound-effects/pick1.wav");
+const goodFx2 = new Audio("./sound-effects/pick2.wav");
+const goodFx3 = new Audio("./sound-effects/pick3.wav");
+
+const goodFxArr = [goodFx1, goodFx2, goodFx3];
+
+const badFx = new Audio("./sound-effects/oh-no.wav");

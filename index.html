@@ -11,26 +11,27 @@
     <main>
       <div class="game-container">
         <img class="bg-img" src="pics/mushroom-bg.png" alt="mushrooms" />
-        <h1>Pick the Mushrooms</h1>
-        <div class="scores">
-          <p class="game-score">
-            Mushrooms picked: <span class="score">0</span>
-          </p>
-          <p class="high-score">
-            Most ever picked: <span id="high-score">0</span>
-          </p>
+        <div class="title-scores-container">
+          <h1>Pick the Mushrooms</h1>
+          <div class="scores">
+            <p class="game-score">Score: <span class="score">0</span></p>
+            <p class="high-score">High Score: <span id="high-score">0</span></p>
+            <h3 id="alert-message"></h3>
+          </div>
         </div>
 
-        <div class="circle-container">
-          <div class="circle"></div>
-          <div class="circle"></div>
-          <div class="circle"></div>
-          <div class="circle"></div>
-        </div>
+        <div class="circles-buttons-container">
+          <div class="circle-container">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+          </div>
 
-        <div class="button-container">
-          <button id="start-button">Start Game</button>
-          <button id="end-button" class="hide">End Game</button>
+          <div class="button-container">
+            <button id="start-button">Start Game</button>
+            <button id="end-button" class="hide">End Game</button>
+          </div>
         </div>
 
         <div id="overlay" class="hide">

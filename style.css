@@ -27,10 +27,14 @@ img {
 /* - - - game area - - - */
 
 .game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
   background-color: rgb(187, 137, 114);
   min-height: 85vh;
-  padding: 80px;
+  padding: 40px;
+  padding-top: 70px;
   cursor: url('./pics/knife.png'), auto;
   border-radius: 5px;
 }
@@ -45,41 +49,39 @@ img {
   opacity: 0.2;
 }
 
-.game-container h1 {
-  font-size: 60px;
+.title-scores-container h1 {
+  font-size: 50px;
+  text-align: center;
 }
 
-.game-container .scores {
-  margin-left: 50px;
+.title-scores-container h3 {
+  color: darkred;
+  font-size: 32px;
+  padding-top: 25px;
 }
 
-.game-container .game-score {
+.title-scores-container .scores {
+  padding: 30px 50px;
+}
+
+.title-scores-container .game-score {
   font-size: 30px;
 }
 
-.game-container .high-score {
+.title-scores-container .high-score {
   font-size: 16px;
 }
 
-.title-container {
-  padding: 60px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 #high-score {
-  padding-top: 16px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
-/* - - - cirecles - - - */
+/* - - - circles - - - */
 
 .circle-container {
   display: flex;
   justify-content: center;
   column-gap: 20px;
-  margin-top: 20px;
 }
 
 .circle {
@@ -118,7 +120,7 @@ img {
 button {
   font-family: 'Indie Flower', cursive;
   font-size: 20px;
-  margin-top: 75px;
+  margin-top: 50px;
   border: none;
   background-color: #333;
   color: white;

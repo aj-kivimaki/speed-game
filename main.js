@@ -7,6 +7,7 @@ const modalDisplay = document.querySelector("#overlay");
 const closeModalElem = document.querySelector("#close-overlay");
 const gameResultElem = document.querySelector("#game-result");
 const highScoreDisplay = document.querySelector("#high-score");
+const alertMessageElem = document.querySelector("#alert-message");
 
 /* - - - GLOBAL VARIABLES - - - */
 let score = 0;
@@ -14,6 +15,7 @@ let timer = 0;
 let pace = 1000;
 let currentNumber = 0;
 let rounds = 0;
+let mushroomId = 0;
 
 // get the high score value from the local storage and display it
 let highScore = parseInt(localStorage.getItem("highScore")) || 0;
@@ -30,7 +32,12 @@ const playGame = () => {
 
   const newNumber = getNewNumber(currentNumber);
 
-  displayRandomMushroom(newNumber, currentNumber);
+  mushroomId = displayRandomMushroom(newNumber, currentNumber);
+
+  // if poisonous mushroom
+  if (mushroomId === 3) {
+    rounds--; // balances the unclicked poisonous mushroom
+  }
 
   // resets the current number
   currentNumber = newNumber;
@@ -69,9 +76,27 @@ const switchButtons = () => {
 // counts and displays the score when clicking the circle with the image
 const clickCircle = (index) => {
   if (index !== currentNumber) return endGame();
-  score++;
-  scoreDisplay.textContent = score;
+  if (mushroomId === 3) {
+    score -= 5;
+    displayScore();
+    rounds--; // balances the count of missed clicks
+    displayAlertMessage();
+    setTimeout(removerAlertMessage, 1500);
+    return;
+  }
+  score += 2;
+  displayScore();
   rounds--; // balances the count of missed clicks
+};
+
+const removerAlertMessage = () => (alertMessageElem.textContent = "");
+
+const displayAlertMessage = () => {
+  alertMessageElem.textContent = "Don't pick poisonous mushrooms! -5p";
+};
+
+const displayScore = () => {
+  scoreDisplay.textContent = score;
 };
 
 // generates new random number, which is different from the one before
@@ -84,21 +109,24 @@ const getNewNumber = (currentNumber) => {
 const getRandomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-// displays the right mushroom picture (of 4) in the right circle
+// displays the random mushroom picture (from 4) in the random circle
 // shows only one mushroom at a time
+// returns id number of the mushroom
 const displayRandomMushroom = (newNumber, currentNumber) => {
+  mushroomId = getRandomNumber(0, 3);
   circleElems[newNumber].innerHTML = `
-  <img class="mushroom-img" src="pics/mushroom-${newNumber}.png" alt="mushroom" />`;
+  <img class="mushroom-img" src="pics/mushroom-${mushroomId}.png" alt="mushroom" />`;
   circleElems[currentNumber].innerHTML = "";
+  return mushroomId;
 };
 
 // generates the result text depending on the score
 const getResultText = (score) => {
   if (score === 0)
-    return "What's wrong with you? You didn't get any mushrooms!";
-  if (score < 5) return `You are so slow! You got only ${score} mushrooms.`;
-  if (score < 10) return `Not bad, ${score} mushrooms.`;
-  return `You are quite quick! You got ${score} mushrooms.`;
+    return "What's wrong with you? Have you even seen a mushroom before?!";
+  if (score < 10) return `You are so slow! You got only ${score} points.`;
+  if (score < 20) return `Not bad, ${score} points.`;
+  return `You are quite quick! You got ${score} points.`;
 };
 
 // saves in case of high score

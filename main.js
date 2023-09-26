@@ -12,91 +12,97 @@ const highScoreDisplay = document.querySelector("#high-score");
 let score = 0;
 let timer = 0;
 let pace = 1000;
-let current = 0;
+let currentNumber = 0;
 let rounds = 0;
-let highScore = parseInt(localStorage.getItem("highScore")) || 0;
 
-// display high score
+// get the high score value from the local storage and display it
+let highScore = parseInt(localStorage.getItem("highScore")) || 0;
 highScoreDisplay.textContent = highScore;
 
 /* - - - FUNCTIONS - - - */
 const playGame = () => {
+  // ends the game after three missed clicks
   if (rounds >= 3) return endGame();
   rounds++;
 
   enableEvents();
   switchButtons();
 
-  const newActiveNumber = picNewNumber(current);
+  const newNumber = getNewNumber(currentNumber);
 
-  generateRandomMushroom(newActiveNumber, current);
+  displayRandomMushroom(newNumber, currentNumber);
 
-  current = newActiveNumber;
+  // resets the current number
+  currentNumber = newNumber;
+
+  // sets the game loop on and the speed of the game
   timer = setTimeout(playGame, pace);
-
   pace -= 10;
-
-  function picNewNumber(current) {
-    const newActiveNumber = getRandomNumber(0, 3);
-    return newActiveNumber === current
-      ? picNewNumber(current)
-      : newActiveNumber;
-  }
 };
 
+// stops the game loop, displays the result and sets the high score
 const endGame = () => {
   clearTimeout(timer);
-  gameResult(score);
-  showModal();
+
+  gameResultElem.textContent = getResultText(score);
+  modalDisplay.classList.remove("hide");
+
+  setHighScore(score);
 };
 
-const clickCircle = (index) => {
-  if (index !== current) return endGame();
-  rounds--;
-  if (index === current && index === 3) score++;
-  renderScore();
-};
+// reloads the game (refreshes the game)
+const resetGame = () => location.reload();
 
+// enables clicking the circles when the game starts
 const enableEvents = () => {
   circleElems.forEach((circle) => {
     circle.style.pointerEvents = "auto";
   });
 };
 
-const showModal = () => modalDisplay.classList.remove("hide");
-const resetGame = () => location.reload();
-const renderScore = () => (scoreDisplay.textContent = score);
-const getRandomNumber = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
+// switches the display between the start and end button
 const switchButtons = () => {
   startButtonElem.classList.add("hide");
   endButtonElem.classList.remove("hide");
 };
 
-const gameResult = (score) => {
-  let result = "";
-  if (score === 0) {
-    result = "What's wrong with you? You didn't get any mushrooms!";
-  } else if (score > 0 && score < 5) {
-    result = `You are so slow! You got only ${score} mushrooms.`;
-  } else if (score >= 5 && score < 10) {
-    result = `Not bad, ${score} mushrooms.`;
-  } else {
-    result = `You are quite quick! You got ${score} mushrooms.`;
-  }
-  saveHighScore(score);
-  gameResultElem.textContent = result;
+// counts and displays the score when clicking the circle with the image
+const clickCircle = (index) => {
+  if (index !== currentNumber) return endGame();
+  score++;
+  scoreDisplay.textContent = score;
+  rounds--; // balances the count of missed clicks
 };
 
-const generateRandomMushroom = (newActiveNumber, current) => {
-  circleElems[
-    newActiveNumber
-  ].innerHTML = `<img class="mushroom-img" src="pics/mushroom-${newActiveNumber}.png" alt="mushroom" />`;
-  circleElems[current].innerHTML = "";
+// generates new random number, which is different from the one before
+const getNewNumber = (currentNumber) => {
+  const newNumber = getRandomNumber(0, 3);
+  return newNumber === currentNumber ? getNewNumber(currentNumber) : newNumber;
 };
 
-const saveHighScore = (score) => {
+// generates a random number
+const getRandomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+// displays the right mushroom picture (of 4) in the right circle
+// shows only one mushroom at a time
+const displayRandomMushroom = (newNumber, currentNumber) => {
+  circleElems[newNumber].innerHTML = `
+  <img class="mushroom-img" src="pics/mushroom-${newNumber}.png" alt="mushroom" />`;
+  circleElems[currentNumber].innerHTML = "";
+};
+
+// generates the result text depending on the score
+const getResultText = (score) => {
+  if (score === 0)
+    return "What's wrong with you? You didn't get any mushrooms!";
+  if (score < 5) return `You are so slow! You got only ${score} mushrooms.`;
+  if (score < 10) return `Not bad, ${score} mushrooms.`;
+  return `You are quite quick! You got ${score} mushrooms.`;
+};
+
+// saves in case of high score
+const setHighScore = (score) => {
   if (score > highScore) localStorage.setItem("highScore", score);
 };
 

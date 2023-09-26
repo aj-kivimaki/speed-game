@@ -109,6 +109,7 @@ const getRandomNumber = (min, max) =>
 // shows only one mushroom at a time
 // returns id number of the mushroom
 const displayRandomMushroom = (newNumber, currentNumber) => {
+  generalFx.play();
   mushroomId = getRandomNumber(0, 3);
   circleElems[newNumber].innerHTML = `
   <img class="mushroom-img" src="pics/mushroom-${mushroomId}.png" alt="mushroom" draggable="false" />`;
@@ -152,3 +153,4 @@ const goodFx3 = new Audio("./sound-effects/pick3.wav");
 const goodFxArr = [goodFx1, goodFx2, goodFx3];
 
 const badFx = new Audio("./sound-effects/oh-no.wav");
+const generalFx = new Audio("./sound-effects/general2.wav");

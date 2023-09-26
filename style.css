@@ -49,15 +49,28 @@ img {
   font-size: 60px;
 }
 
-.game-container p {
-  font-size: 30px;
+.game-container .scores {
   margin-left: 50px;
+}
+
+.game-container .game-score {
+  font-size: 30px;
+}
+
+.game-container .high-score {
+  font-size: 16px;
 }
 
 .title-container {
   padding: 60px 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+#high-score {
+  padding-top: 16px;
+  font-size: 24px;
 }
 
 /* - - - cirecles - - - */
@@ -158,8 +171,4 @@ small {
 
 .hide {
   display: none;
-}
-
-.active {
-  background-color: black;
 }

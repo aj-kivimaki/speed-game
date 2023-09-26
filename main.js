@@ -1,73 +1,92 @@
-let score = 0;
-let bestScore = JSON.parse(localStorage.getItem("bestScore")) || 0;
-
 /* - - - ELEMENTS - - - */
-const cirleOneEl = document.querySelector("#circle1");
-const cirleTwoEl = document.querySelector("#circle2");
-const cirleThreeEl = document.querySelector("#circle3");
-const cirleFourEl = document.querySelector("#circle4");
-const startButtonEl = document.querySelector("#start-button");
-const closeOverlayEl = document.querySelector("#close-overlay");
-const overlayEl = document.querySelector("#overlay");
-const scoreEl = document.querySelector("#score");
-const gameResultEl = document.querySelector("#game-result");
+const startButtonElem = document.querySelector("#start-button");
+const endButtonElem = document.querySelector("#end-button");
+const circleElems = document.querySelectorAll(".circle");
+const scoreDisplay = document.querySelector(".score");
+const modalDisplay = document.querySelector("#overlay");
+const closeModalElem = document.querySelector("#close-overlay");
+
+/* - - - GLOBAL VARIABLES - - - */
+let score = 0;
+let timer = 0;
+let pace = 800;
+let current = 0;
+let rounds = 0;
+let highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
+
+// const gameResultElem = document.querySelector("#game-result");
 
 /* - - - FUNCTIONS - - - */
-const startGame = () => {
-  resetGame();
-  generateRandomMushroom();
-};
+const playGame = () => {
+  if (rounds >= 3) return endGame();
+  enableEvents();
 
-const resetGame = () => {
-  cirleOneEl.innerHTML = "";
-  cirleTwoEl.innerHTML = "";
-  cirleThreeEl.innerHTML = "";
-  cirleFourEl.innerHTML = "";
-  score = 0;
-  renderScore();
-};
+  const newActiveNumber = picNewNumber(current);
 
-const updateScore = () => {
-  score++;
-  renderScore();
-};
+  circleElems[newActiveNumber].classList.toggle("active");
+  circleElems[current].classList.remove("active");
+  // generateRandomMushroom(newActiveNumber);
 
-const renderScore = () => {
-  scoreEl.innerHTML = `Mushrooms picked: ${score}`;
-  score > 1
-    ? (gameResultEl.innerHTML = `You have only ${score} mushrooms.
-    Don't eat the red ones!`)
-    : (gameResultEl.innerHTML = `You have only ${score} mushroom.`);
-};
+  current = newActiveNumber;
+  timer = setTimeout(playGame, pace);
+  rounds++;
+  pace -= 10;
 
-const closeOverlay = () => {
-  overlayEl.classList.add("hide");
-  resetGame();
-};
-
-const openOverlay = () => {
-  overlayEl.classList.remove("hide");
-};
-
-const randomNumber = () => {
-  return Math.floor(Math.random() * 4) + 1;
-};
-
-const generateRandomMushroom = () => {
-  const randomCircle = document.querySelector(`#circle${randomNumber()}`);
-  randomCircle.innerHTML = `<img class="mushroom-img" src="pics/mushroom-${randomNumber()}.png" alt="mushroom" />`;
-};
-
-const saveBestScore = () => {
-  if (score > bestScore) {
-    localStorage.setItem("bestScore", JSON.stringify({ bestScore: score }));
+  function picNewNumber(current) {
+    const newActiveNumber = getRandomNumber(0, 3);
+    return newActiveNumber !== current
+      ? newActiveNumber
+      : picNewNumber(current);
   }
 };
 
+const endGame = () => {
+  clearTimeout(timer);
+  resetGame();
+};
+
+const clickCircle = (index) => {
+  if (index !== current) return endGame();
+  rounds--;
+  updateScore();
+  renderScore();
+};
+
+const enableEvents = () => {
+  circleElems.forEach((circle) => {
+    circle.style.pointerEvents = "auto";
+  });
+};
+
+const resetGame = () => location.reload();
+const updateScore = () => score++;
+const renderScore = () => (scoreDisplay.textContent = score);
+const resultsOverlay = () => overlayElem.classList.remove("hide");
+
+const getRandomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+/* const generateRandomMushroom = (newActiveNumber) => {
+  const randomCircle = document.querySelector(`#circle${newActiveNumber}`);
+  randomCircle.innerHTML = `<img class="mushroom-img" src="pics/mushroom-${newActiveNumber}.png" alt="mushroom" />`;
+}; */
+
+//   score > 1
+//     ? (gameResultElem.innerHTML = `You have only ${score} mushrooms.
+//     Don't eat the red ones!`)
+//     : (gameResultElem.innerHTML = `You have only ${score} mushroom.`);
+// };
+
 /* - - - EVENT LISTENERS - - - */
-cirleOneEl.addEventListener("click", updateScore);
-cirleTwoEl.addEventListener("click", updateScore);
-cirleThreeEl.addEventListener("click", updateScore);
-cirleFourEl.addEventListener("click", updateScore);
-startButtonEl.addEventListener("click", startGame);
-closeOverlayEl.addEventListener("click", closeOverlay);
+startButtonElem.addEventListener("click", playGame);
+endButtonElem.addEventListener("click", endGame);
+closeModalElem.addEventListener("click", endGame);
+circleElems.forEach((circle, index) => {
+  circle.addEventListener("click", () => clickCircle(index));
+}); // pass the index of each circle in to the clickCircle function
+
+/* const savehighScore = () => {
+  if (score > highScore) {
+    localStorage.setItem("highScore", JSON.stringify({ highScore: score }));
+  }
+}; */

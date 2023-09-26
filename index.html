@@ -5,35 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
-    <title>Speed Game</title>
+    <title>Pick the Mushrooms</title>
   </head>
   <body>
-    <div class="game-container">
-      <img class="bg-img" src="pics/mushroom-bg.png" alt="" />
-      <div class="title-container">
-        <h1>Pick the Mushrooms</h1>
-        <p id="score">Mushrooms picked: 0</p>
-      </div>
+    <main>
+      <div class="game-container">
+        <img class="bg-img" src="pics/mushroom-bg.png" alt="mushrooms" />
+        <div class="title-container">
+          <h1>Pick the Mushrooms</h1>
+          <p>Mushrooms picked: <span class="score">0</span></p>
+        </div>
 
-      <div class="circle-container">
-        <div id="circle1" class="circle"></div>
-        <div id="circle2" class="circle"></div>
-        <div id="circle3" class="circle"></div>
-        <div id="circle4" class="circle"></div>
-      </div>
+        <div class="circle-container">
+          <div id="circle1" class="circle"></div>
+          <div id="circle2" class="circle"></div>
+          <div id="circle3" class="circle"></div>
+          <div id="circle4" class="circle"></div>
+        </div>
 
-      <div class="button-container">
-        <button id="start-button">Start game</button>
-      </div>
+        <div class="button-container">
+          <button id="start-button">Start game</button>
+          <button id="end-button">End game</button>
+        </div>
 
-      <div id="overlay" class="hide">
-        <div class="game-results-screen">
-          <div id="close-overlay">X</div>
-          <h2>You're slower than the neighbor's granny!</h2>
-          <p id="game-result"></p>
-          <p></p>
+        <div id="overlay" class="hide">
+          <div class="game-results-screen">
+            <div id="close-overlay">X</div>
+            <h2>You're slow!</h2>
+            <p id="game-result"></p>
+            <p></p>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
+    <footer>
+      <small>Copyright &copy Atte</small>
+    </footer>
   </body>
 </html>

@@ -10,8 +10,10 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 5px;
   font-family: 'Indie Flower';
   background-color: #333;
   min-height: 100vh;
@@ -58,16 +60,13 @@ img {
   flex-direction: column;
 }
 
+/* - - - cirecles - - - */
+
 .circle-container {
   display: flex;
   justify-content: center;
   column-gap: 20px;
   margin-top: 20px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
 }
 
 .circle {
@@ -78,6 +77,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 }
 
 .circle:hover {
@@ -85,12 +85,21 @@ img {
   box-shadow: 0 0 40px white;
 }
 
+/* - - - mushrooms - - - */
+
 .mushroom-img {
   transition: transform 0.3s;
 }
 
 .mushroom-img:hover {
   transform: scale(1.3);
+}
+
+/* - - - buttons - - - */
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 button {
@@ -109,6 +118,12 @@ button {
 button:hover {
   color: #333;
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* - - - footer - - - */
+
+small {
+  color: white;
 }
 
 /* - - - overlays - - - */
@@ -143,4 +158,8 @@ button:hover {
 
 .hide {
   display: none;
+}
+
+.active {
+  background-color: black;
 }

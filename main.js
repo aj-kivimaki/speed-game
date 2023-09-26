@@ -5,6 +5,7 @@ const circleElems = document.querySelectorAll(".circle");
 const scoreDisplay = document.querySelector(".score");
 const modalDisplay = document.querySelector("#overlay");
 const closeModalElem = document.querySelector("#close-overlay");
+const gameResultElem = document.querySelector("#game-result");
 
 /* - - - GLOBAL VARIABLES - - - */
 let score = 0;
@@ -12,12 +13,14 @@ let timer = 0;
 let pace = 800;
 let current = 0;
 let rounds = 0;
-let highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
 
-// const gameResultElem = document.querySelector("#game-result");
+// let highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
 
 /* - - - FUNCTIONS - - - */
 const playGame = () => {
+  startButtonElem.classList.add("hide");
+  endButtonElem.classList.remove("hide");
+
   if (rounds >= 3) return endGame();
   enableEvents();
 
@@ -42,7 +45,8 @@ const playGame = () => {
 
 const endGame = () => {
   clearTimeout(timer);
-  resetGame();
+  gameResult(score);
+  modalDisplay.classList.remove("hide");
 };
 
 const clickCircle = (index) => {
@@ -61,32 +65,36 @@ const enableEvents = () => {
 const resetGame = () => location.reload();
 const updateScore = () => score++;
 const renderScore = () => (scoreDisplay.textContent = score);
-const resultsOverlay = () => overlayElem.classList.remove("hide");
+const gameResult = (score) => {
+  let result = "";
+  if (score < 5) {
+    result = `You are slow! You have only ${score} mushrooms.`;
+  } else if (score > 10) {
+    result = `You are quite quick! You have ${score} mushrooms.`;
+  } else {
+    result = `Not bad, ${score} mushrooms.`;
+  }
+  gameResultElem.textContent = result;
+};
 
 const getRandomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-/* const generateRandomMushroom = (newActiveNumber) => {
-  const randomCircle = document.querySelector(`#circle${newActiveNumber}`);
-  randomCircle.innerHTML = `<img class="mushroom-img" src="pics/mushroom-${newActiveNumber}.png" alt="mushroom" />`;
-}; */
-
-//   score > 1
-//     ? (gameResultElem.innerHTML = `You have only ${score} mushrooms.
-//     Don't eat the red ones!`)
-//     : (gameResultElem.innerHTML = `You have only ${score} mushroom.`);
-// };
-
 /* - - - EVENT LISTENERS - - - */
 startButtonElem.addEventListener("click", playGame);
 endButtonElem.addEventListener("click", endGame);
-closeModalElem.addEventListener("click", endGame);
+closeModalElem.addEventListener("click", resetGame);
 circleElems.forEach((circle, index) => {
   circle.addEventListener("click", () => clickCircle(index));
-}); // pass the index of each circle in to the clickCircle function
+}); // pass the index of each circle into the clickCircle function
 
 /* const savehighScore = () => {
   if (score > highScore) {
     localStorage.setItem("highScore", JSON.stringify({ highScore: score }));
   }
+}; */
+
+/* const generateRandomMushroom = (newActiveNumber) => {
+  const randomCircle = document.querySelector(`#circle${newActiveNumber}`);
+  randomCircle.innerHTML = `<img class="mushroom-img" src="pics/mushroom-${newActiveNumber}.png" alt="mushroom" />`;
 }; */

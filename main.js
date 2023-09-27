@@ -8,6 +8,7 @@ const closeModalElem = document.querySelector("#close-overlay");
 const gameResultElem = document.querySelector("#game-result");
 const highScoreDisplay = document.querySelector("#high-score");
 const alertMessageElem = document.querySelector("#alert-message");
+const highScoreMessageDisplay = document.querySelector("#high-score-message");
 
 /* - - - GLOBAL VARIABLES - - - */
 let score = 0;
@@ -94,6 +95,8 @@ const displayAlertMessage = () =>
 const removeAlertMessage = () => (alertMessageElem.textContent = "");
 
 const displayScore = () => (scoreDisplay.textContent = score);
+const displayHighScoreMessage = () =>
+  (highScoreMessageDisplay.textContent = "New high score!");
 
 // generates new random number, which is different from the one before
 const getNewNumber = (currentNumber) => {
@@ -119,16 +122,26 @@ const displayRandomMushroom = (newNumber, currentNumber) => {
 
 // generates the result text depending on the score
 const getResultText = (score) => {
-  if (score === 0)
+  if (score < 0) {
+    loose.play();
+    return `Wow! Minus points! ${score}p`;
+  }
+  if (score === 0) {
+    loose.play();
     return "What's wrong with you? Have you even seen a mushroom before?!";
+  }
   if (score < 10) return `You are so slow! You got only ${score} points.`;
-  if (score < 20) return `Not bad, ${score} points.`;
-  return `You are quite quick! You got ${score} points.`;
+  if (score < 20) return `Not bad, ${score}p.`;
+  return `You are quite quick! You got ${score}p.`;
 };
 
 // saves in case of high score
 const setHighScore = (score) => {
-  if (score > highScore) localStorage.setItem("highScore", score);
+  if (score > highScore) {
+    localStorage.setItem("highScore", score);
+    victory.play();
+    displayHighScoreMessage();
+  }
 };
 
 // generate random sound between 3 sounds
@@ -154,3 +167,6 @@ const goodFxArr = [goodFx1, goodFx2, goodFx3];
 
 const badFx = new Audio("./sound-effects/oh-no.wav");
 const generalFx = new Audio("./sound-effects/general2.wav");
+
+const victory = new Audio("./sound-effects/victory.wav");
+const loose = new Audio("./sound-effects/loose.wav");

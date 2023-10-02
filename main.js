@@ -18,7 +18,8 @@ let currentNumber = 0;
 let rounds = 0;
 let mushroomId = 0;
 
-// get the high score value from the local storage and display it
+/* - - - LOCAL STORAGE - - - */
+// gets the high score value from the local storage and displays it
 let highScore = parseInt(localStorage.getItem("highScore")) || 0;
 highScoreDisplay.textContent = highScore;
 
@@ -80,20 +81,17 @@ const clickCircle = (index) => {
     badFx.play();
     displayAlertMessage();
     setTimeout(removeAlertMessage, 1500);
-    rounds--; // balances the count of missed clicks
     return;
   }
   score += 2;
   getRandomSound();
   displayScore();
-  rounds--; // balances the count of missed clicks
+  rounds--;
 };
 
 const displayAlertMessage = () =>
   (alertMessageElem.textContent = "Don't pick poisonous mushrooms! -5p");
-
 const removeAlertMessage = () => (alertMessageElem.textContent = "");
-
 const displayScore = () => (scoreDisplay.textContent = score);
 const displayHighScoreMessage = () =>
   (highScoreMessageDisplay.textContent = "New high score!");
@@ -130,8 +128,8 @@ const getResultText = (score) => {
     loose.play();
     return "What's wrong with you? Have you even seen a mushroom before?!";
   }
-  if (score < 10) return `You are so slow! You got only ${score} points.`;
-  if (score < 20) return `Not bad, ${score}p.`;
+  if (score < 20) return `You are so slow! You got only ${score} points.`;
+  if (score < 40) return `Not bad, ${score}p.`;
   return `You are quite quick! You got ${score}p.`;
 };
 
@@ -162,11 +160,8 @@ circleElems.forEach((circle, index) => {
 const goodFx1 = new Audio("./sound-effects/pick1.wav");
 const goodFx2 = new Audio("./sound-effects/pick2.wav");
 const goodFx3 = new Audio("./sound-effects/pick3.wav");
-
 const goodFxArr = [goodFx1, goodFx2, goodFx3];
-
 const badFx = new Audio("./sound-effects/oh-no.wav");
 const generalFx = new Audio("./sound-effects/general2.wav");
-
 const victory = new Audio("./sound-effects/victory.wav");
 const loose = new Audio("./sound-effects/loose.wav");

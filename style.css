@@ -145,7 +145,6 @@ small {
 /* - - - overlays - - - */
 
 #overlay {
-  background-color: rgba(0, 0, 0, 0.8);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -154,17 +153,19 @@ small {
 }
 
 .game-results-screen {
-  background-color: rgba(187, 137, 114, 0.8);
-  position: relative;
+  background-color: rgba(105, 105, 105, 0.85);
+  position: absolute;
   color: white;
   font-size: 30px;
-  position: fixed;
-  top: 100px;
-  left: 100px;
-  right: 100px;
-  padding: 150px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   border-radius: 8px;
   line-height: 1.7;
+  display: flex;
+  align-items: center;
+  padding: 30px;
 }
 
 #close-overlay {

@@ -9,6 +9,9 @@ const gameResultElem = document.querySelector("#game-result");
 const highScoreDisplay = document.querySelector("#high-score");
 const alertMessageElem = document.querySelector("#alert-message");
 const highScoreMessageDisplay = document.querySelector("#high-score-message");
+const infoButtonElem = document.querySelector("#js-info-button");
+const closeModalElem2 = document.querySelector("#close-overlay2");
+const modalDisplay2 = document.querySelector("#overlay2");
 
 /* - - - GLOBAL VARIABLES - - - */
 let score = 0;
@@ -148,6 +151,16 @@ const getRandomSound = () => {
   goodFxArr[arrIndex].play();
 };
 
+// opens info modal
+const openInfo = () => {
+  modalDisplay2.classList.remove("hide");
+};
+
+// closes info modal
+const closeInfo = () => {
+  modalDisplay2.classList.add("hide");
+};
+
 /* - - - EVENT LISTENERS - - - */
 startButtonElem.addEventListener("click", playGame);
 endButtonElem.addEventListener("click", endGame);
@@ -155,6 +168,8 @@ closeModalElem.addEventListener("click", resetGame);
 circleElems.forEach((circle, index) => {
   circle.addEventListener("click", () => clickCircle(index));
 });
+infoButtonElem.addEventListener("click", openInfo);
+closeModalElem2.addEventListener("click", closeInfo);
 
 /* - - - SOUNDS - - - */
 const goodFx1 = new Audio("./sound-effects/pick1.wav");

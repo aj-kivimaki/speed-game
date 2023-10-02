@@ -159,10 +159,10 @@ small {
   color: white;
   font-size: 30px;
   position: fixed;
-  top: 150px;
-  left: 200px;
-  right: 200px;
-  padding: 100px;
+  top: 100px;
+  left: 100px;
+  right: 100px;
+  padding: 150px;
   border-radius: 8px;
   line-height: 1.7;
 }
@@ -175,10 +175,15 @@ small {
 }
 
 #high-score-message {
+  position: absolute;
+  left: 100px;
+  top: 145px;
   rotate: 335deg;
-  color: rgb(255, 247, 0);
+  color: rgb(0, 0, 0);
+  font-size: 40px;
   font-weight: bold;
-  text-shadow: 4px 4px 30px rgb(255, 255, 255);
+  text-shadow: 2px 2px 5px rgb(255, 247, 0), 5px -5px 5px rgb(164, 0, 0);
+  text-transform: uppercase;
 }
 
 .hide {
